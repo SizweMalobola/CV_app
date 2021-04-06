@@ -1,0 +1,98 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+body {
+  color: rgb(119, 119, 119);
+  background-color: rgb(247, 241, 234);
+}
+#container {
+  max-width: 70rem;
+  min-width: 50rem;
+  margin: 0 auto;
+}
+header {
+  position: relative;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+  border: 1px gainsboro solid;
+}
+#header-icon {
+  font-size: 1.8rem;
+  position: absolute;
+  right: 0;
+}
+#header-icon :hover {
+  cursor: pointer;
+}
+/* main */
+main {
+  padding: 2rem 0;
+}
+section {
+  border: 1px gainsboro solid;
+}
+.section-header {
+  margin-bottom: 3rem;
+}
+.inputfield-div {
+  margin-top: 1rem;
+  position: relative;
+}
+.textarea-div {
+  margin-top: 1rem;
+  position: relative;
+}
+.textarea-div:not(:nth-child(3)) {
+  margin-top: 2.5rem;
+}
+.inputfield-div input,
+.textarea-div textarea {
+  position: absolute;
+  margin-left: 20px;
+  width: 15rem;
+}
+.inputfield-div span {
+  position: absolute;
+  color: red;
+  margin-left: 10px;
+  width: 200px;
+  text-align: start;
+  overflow-x: hidden;
+}
+form {
+  min-width: 20%;
+  max-width: 20%;
+  text-align: end;
+}
+section {
+  padding: 0.5rem;
+}
+.button-div {
+  margin-top: 2rem;
+  text-align: start;
+  position: relative;
+}
+.button-div button {
+  display: inline-flex;
+  align-items: center;
+  /* justify-content: space-around; */
+  padding: 2px;
+}
+.submit-button {
+  margin-right: 0.5rem;
+}
+.expand-button {
+  position: absolute;
+  margin-left: 0.5rem;
+}
+.collapse-button {
+  position: absolute;
+  margin-left: 5rem;
+}
