@@ -1,106 +1,108 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { FaCheck, FaEdit, FaPlus, FaTimes } from "react-icons/fa";
 
-export default class Buttons extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      text: false,
-      inputs: null,
-    };
-  }
-
-  checkValid(formEl) {
+export default function Buttons({
+  formId,
+  add,
+  expandHandler,
+  collapseHandler,
+}) {
+  //
+  const [text, setText] = useState(false);
+  const [input, setInput] = useState(null);
+  //
+  const checkValid = (formEl) => {
     let form = document.querySelector(formEl);
     return form.checkValidity();
-  }
-  displayText(formEl) {
+  };
+  //
+  const displayText = (formEl) => {
     let form = document.querySelector(formEl);
     let inputEls = form.querySelectorAll("input");
-    console.log(Array.from(inputEls));
-    this.setState({
-      text: true,
-      inputs: Array.from(inputEls),
-    });
+    //
+    if (form.querySelector("textarea")) {
+      let textareaEls = form.querySelectorAll("textarea");
+      inputEls = [...inputEls, ...textareaEls];
+    }
+
+    setText((currentStateValue) => (currentStateValue = true));
+    setInput((currentStateValue) => (currentStateValue = Array.from(inputEls)));
     inputEls.forEach((el) => {
       let replacement = document.createElement("span");
       replacement.classList.add("text-element");
       replacement.innerText = el.value;
       el.replaceWith(replacement);
     });
-  }
-  displayInput() {
+  };
+  //
+  const displayInput = () => {
     let textEls = document.querySelectorAll(".text-element");
-    let savedInputs = this.state.inputs;
-    this.setState({
-      text: false,
-    });
+    let savedInputs = input;
+    setText((currentStateValue) => (currentStateValue = false));
+
     savedInputs.forEach((el, index) => {
       textEls[index].replaceWith(el);
     });
-  }
-  render() {
-    const { formId, add, expandHandler, collapseHandler } = this.props;
-    return (
-      <div className="button-div">
-        <button
-          onClick={(e) => {
-            if (this.checkValid(formId)) {
-              e.preventDefault();
-              this.displayText(formId);
-              //   disabling buttons so it doesn't erase inputs
-              e.target.setAttribute("disabled", true);
-            }
-          }}
-          className="submit-button"
-          type="submit"
-        >
-          Submit <FaCheck />
-        </button>
-        <button
-          className="edit-button"
-          onClick={(e) => {
+  };
+  return (
+    <div className="button-div">
+      <button
+        onClick={(e) => {
+          if (checkValid(formId)) {
             e.preventDefault();
-            if (this.state.text) {
-              this.displayInput();
-              e.target.previousSibling.removeAttribute("disabled");
-            }
-          }}
-        >
-          Edit <FaEdit />
-        </button>
-        {/* conditionally rendered buttons  */}
-        {add && (
-          <>
-            <button
-              className="expand-button"
-              onClick={(e) => {
-                //   this must only run when you can still fill in inputfield
-                e.preventDefault();
-                if (this.state.text === false) {
-                  console.log("clicked on expand");
-                  expandHandler();
-                }
-              }}
-            >
-              Expand <FaPlus />
-            </button>
-            <button
-              className="collapse-button"
-              onClick={(e) => {
-                //   this must only run when you can still fill in inputfield
-                e.preventDefault();
-                if (this.state.text === false) {
-                  console.log("clicked on collapse");
-                  collapseHandler();
-                }
-              }}
-            >
-              Collapse <FaTimes />
-            </button>
-          </>
-        )}
-      </div>
-    );
-  }
+            displayText(formId);
+            //   disabling buttons so it doesn't erase inputs
+            e.target.setAttribute("disabled", true);
+          }
+        }}
+        className="submit-button"
+        type="submit"
+      >
+        Submit <FaCheck />
+      </button>
+      <button
+        className="edit-button"
+        onClick={(e) => {
+          e.preventDefault();
+          if (text) {
+            let form = document.querySelector(formId);
+            const subBtn = form.querySelector(".submit-button");
+            displayInput();
+            subBtn.removeAttribute("disabled");
+          }
+        }}
+      >
+        Edit <FaEdit />
+      </button>
+      {/* conditionally rendered buttons  */}
+      {add && (
+        <>
+          <button
+            className="expand-button"
+            onClick={(e) => {
+              //   this must only run when you can still fill in inputfield
+              e.preventDefault();
+              if (text === false) {
+                expandHandler(e);
+              }
+            }}
+          >
+            Expand <FaPlus />
+          </button>
+          <button
+            className="collapse-button"
+            onClick={(e) => {
+              //   this must only run when you can still fill in inputfield
+              e.preventDefault();
+              if (text === false) {
+                collapseHandler(e);
+              }
+            }}
+          >
+            Collapse <FaTimes />
+          </button>
+        </>
+      )}
+    </div>
+  );
 }

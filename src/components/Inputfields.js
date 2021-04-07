@@ -1,24 +1,21 @@
-import React, { Component } from "react";
+import React from "react";
 
-export default class Inputfields extends Component {
-  makeId(string) {
+export default function Inputfields({ label, type }) {
+  function makeId(string) {
     let newString = string.toLowerCase().split(" ");
     newString = newString.join("-");
     return newString;
   }
-  render() {
-    const { label, type } = this.props;
-    return (
-      <div className="inputfield-div">
-        <label htmlFor={this.makeId(label)}>{label} </label>
-        <input
-          type={type}
-          required={true}
-          onInput={(e) => {
-            e.target.checkValidity();
-          }}
-        ></input>
-      </div>
-    );
-  }
+  return (
+    <div className="inputfield-div">
+      <label htmlFor={makeId(label)}>{label} </label>
+      <input
+        type={type}
+        required={true}
+        onInput={(e) => {
+          e.target.checkValidity();
+        }}
+      ></input>
+    </div>
+  );
 }
