@@ -58,9 +58,10 @@ section {
   margin-left: 20px;
   width: 15rem;
 }
-.inputfield-div span {
+.inputfield-div span,
+.textarea-div span {
   position: absolute;
-  color: red;
+  color: black;
   margin-left: 10px;
   width: 200px;
   text-align: start;
